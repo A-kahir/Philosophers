@@ -1,4 +1,4 @@
-CC = cc #-fsanitize=thread
+CC = cc -g -fsanitize=address #-fsanitize=thread
 CFLAGS = -Wall -Werror -Wextra -pthread
 
 SRCS = main.c utils_func.c utils_philos.c ft_init.c ft_monitoring.c ft_action.c 

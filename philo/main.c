@@ -35,14 +35,11 @@ int	ft_action_monitoring(t_philo *philo, pthread_t *monitor)
 	return (0);
 }
 
-int	main(int argc, char **argv)
+static int ft_parsing(int argc, char **argv)
 {
-	t_philo		*philo;
-	t_data		*g_data;
-	pthread_t	monitor;
 	int			i;
 
-	if (argc != 5 && argc != 6)
+	if ((argc != 5 && argc != 6) || ft_atoi(argv[1]) == 0)
 		return (print_msg(0), 1);
 	if (parse_args(argc, argv) == 0)
 		return (print_msg(1), 1);
@@ -52,7 +49,18 @@ int	main(int argc, char **argv)
 		if (ft_atoi(argv[i]) < 0)
 			return (print_msg(1), 1);
 		i++;
-	}	
+	}
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	t_philo		*philo;
+	t_data		*g_data;
+	pthread_t	monitor;
+
+	if (ft_parsing(argc, argv) == 1)
+		return (1);
 	philo = init_philos(argv);
 	if (!philo)
 		return (write(2, "Failed to init philo data\n", 27), 1);
