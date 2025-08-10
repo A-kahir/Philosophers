@@ -24,7 +24,8 @@ static int	ft_check_die(t_philo *curr, int *full_eat)
 	{
 		curr->g_data->is_dead = 1;
 		pthread_mutex_unlock(&curr->g_data->mutexes->death_mutex);
-		ft_print_actions(curr, "died");
+		if (curr->g_data->nb_philos != 1)
+			ft_print_actions(curr, "died");
 		return (-1);
 	}
 	if (curr->g_data->must_eat_count == -1

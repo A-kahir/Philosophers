@@ -65,10 +65,11 @@ t_philo	*creat_node(t_philo *philo, char **argv, int *index);
 t_data	*ft_allocation(t_data *g_data, char **argv);
 void	ft_clean_destroy(t_philo *philo, t_data *g_data);
 
-// utils functions:
+// Libft functions:
 void	print_msg(int flag);
 int		parse_args(int argc, char **argv);
 int		ft_atoi(char *str);
 int		ft_strcmp(char *s1, char *s2);
+long ft_static_var(long change_to, int flag);
 
 #endif

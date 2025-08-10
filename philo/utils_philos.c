@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-#include "philo.h"
 
 void	ft_print_actions(t_philo *philo, char *msg)
 {
@@ -93,9 +92,7 @@ t_philo	*creat_node(t_philo *philo, char **argv, int *index)
 
 	philo = malloc(sizeof(t_philo));
 	if (!philo)
-	{
 		return (NULL);
-	}
 	philo->philo_id = *index;
 	philo->tt_die = ft_atoi(argv[2]);
 	philo->tt_eat = ft_atoi(argv[3]);

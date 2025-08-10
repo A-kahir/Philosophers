@@ -191,6 +191,5 @@ void	*ft_action(void *arg)
 			usleep(100);
 		}
 	}
-	ft_think_sleep(philo);
-	return (NULL);
+	return (ft_think_sleep(philo), NULL);
 }
