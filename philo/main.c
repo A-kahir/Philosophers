@@ -35,7 +35,7 @@ int	ft_action_monitoring(t_philo *philo, pthread_t *monitor)
 	return (0);
 }
 
-static int ft_parsing(int argc, char **argv)
+static int	ft_parsing(int argc, char **argv)
 {
 	int			i;
 
@@ -53,23 +53,8 @@ static int ft_parsing(int argc, char **argv)
 	return (0);
 }
 
-void f()
-{
-	system("leaks philo");
-}
-
-static void ft_have_one_philo(t_philo *philo)
-{
-	ft_print_actions(philo, "is thinking");
-	ft_print_actions(philo, "has taken a fork");
-	usleep(philo->tt_die);
-	printf("%d %d %s\n", philo->tt_die,
-		philo->philo_id, "is died");
-}
-
 int	main(int argc, char **argv)
 {
-	// atexit(f);
 	t_philo		*philo;
 	t_data		*g_data;
 	pthread_t	monitor;
@@ -87,9 +72,6 @@ int	main(int argc, char **argv)
 		if (ft_action_monitoring(philo, &monitor) == 1)
 			return (write(2, "thread is failed\n", 18), 1);
 	if (g_data->nb_philos == 1)
-	{
-		ft_have_one_philo(philo);
-		return (0);
-	}
+		return (ft_have_one_philo(philo), 0);
 	ft_clean_destroy(philo, g_data);
 }

@@ -87,12 +87,3 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-
-long ft_static_var(long change_to, int flag)
-{
-	static long time_we_have;
-
-	if (flag == 1)
-		time_we_have = change_to;
-	return (time_we_have);
-}

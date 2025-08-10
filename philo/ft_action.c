@@ -12,40 +12,49 @@
 
 #include "philo.h"
 
-static	void	ft_eat(t_philo *philo)
+int	ft_time(void)
 {
 	struct timeval	tv;
+	int				time;
+
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (time);
+}
+
+static void	ft_unlock_forks_r_l(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
+}
+
+static void	ft_eat(t_philo *philo)
+{
 	long			start;
 	long			nw;
 
 	ft_start_eating(philo);
 	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
 	if (philo->g_data->is_dead)
-	{
-		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-		return ;
-	}
+		if (pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex) == 0)
+			return ;
 	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
 	if (philo->g_data->nb_philos == 1)
 		return ;
-	gettimeofday(&tv, NULL);
-	start = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	start = ft_time();
 	while (1)
 	{
-		gettimeofday(&tv, NULL);
-		nw = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+		nw = ft_time();
 		if (nw - start >= philo->tt_eat)
 			break ;
 		pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
 		if (philo->g_data->is_dead)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			break ;
-		}
-		1 && (pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex), usleep(100));
+			if (pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex) == 0)
+				break ;
+		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
+		usleep(100);
 	}
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
+	ft_unlock_forks_r_l(philo);
 }
 
 static	void	ft_think_sleep(t_philo *philo)
@@ -54,16 +63,12 @@ static	void	ft_think_sleep(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
 		if (philo->g_data->is_dead)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			break ;
-		}
+			if (pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex) == 0)
+				break ;
 		if (philo->g_data->must_eat_count != -1
 			&& philo->nb_tt_eat >= philo->g_data->must_eat_count)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			break ;
-		}
+			if (pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex) == 0)
+				break ;
 		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
 		ft_print_actions(philo, "is thinking");
 		if (philo->philo_id % 2 == 1)
@@ -71,10 +76,8 @@ static	void	ft_think_sleep(t_philo *philo)
 		ft_eat(philo);
 		pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
 		if (philo->g_data->is_dead)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			break ;
-		}
+			if (pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex) == 0)
+				break ;
 		philo->nb_tt_eat++;
 		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
 		ft_print_actions(philo, "is sleeping");
@@ -87,17 +90,14 @@ void	*ft_action(void *arg)
 	t_philo			*philo;
 	long			start;
 	long			nw;
-	struct timeval	tv;
 
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 1)
 	{
-		gettimeofday(&tv, NULL);
-		start = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+		start = ft_time();
 		while (1)
 		{
-			gettimeofday(&tv, NULL);
-			nw = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+			nw = ft_time();
 			if (nw - start >= 2)
 				break ;
 			pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);

@@ -103,3 +103,12 @@ t_philo	*creat_node(t_philo *philo, char **argv, int *index)
 	philo->next = NULL;
 	return (philo);
 }
+
+void	ft_have_one_philo(t_philo *philo)
+{
+	ft_print_actions(philo, "is thinking");
+	ft_print_actions(philo, "has taken a fork");
+	usleep(philo->tt_die);
+	printf("%d %d %s\n", philo->tt_die,
+		philo->philo_id, "is died");
+}

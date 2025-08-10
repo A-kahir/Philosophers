@@ -24,14 +24,22 @@ static int	ft_check_die(t_philo *curr, int *full_eat)
 	{
 		curr->g_data->is_dead = 1;
 		pthread_mutex_unlock(&curr->g_data->mutexes->death_mutex);
-		if (curr->g_data->nb_philos != 1)
-			ft_print_actions(curr, "died");
+		ft_print_actions(curr, "died");
 		return (-1);
 	}
 	if (curr->g_data->must_eat_count == -1
 		|| curr->nb_tt_eat < curr->g_data->must_eat_count)
 		*full_eat = 0;
 	pthread_mutex_unlock(&curr->g_data->mutexes->death_mutex);
+	return (0);
+}
+
+static int	ft_full_eat(t_data *g_data)
+{
+	pthread_mutex_lock(&g_data->mutexes->death_mutex);
+	g_data->is_dead = 1;
+	if (pthread_mutex_unlock(&g_data->mutexes->death_mutex) == 0)
+		return (1);
 	return (0);
 }
 
@@ -42,32 +50,24 @@ void	*ft_monitor_philo(void *arg)
 	t_data	*g_data;
 	int		full_eat;
 
-	start = (t_philo *)arg;
-	g_data = start->g_data;
+	1 && (start = (t_philo *)arg, g_data = start->g_data);
 	while (1)
 	{
-		full_eat = 1;
-		curr = start;
+		1 && (full_eat = 1, curr = start);
 		while (curr)
 		{
 			if (ft_check_die(curr, &full_eat) == -1)
 				return (NULL);
 			pthread_mutex_lock(&g_data->mutexes->death_mutex);
 			if (g_data->is_dead)
-			{
-				pthread_mutex_unlock(&g_data->mutexes->death_mutex);
-				return (NULL);
-			}
+				if (pthread_mutex_unlock(&g_data->mutexes->death_mutex) == 0)
+					return (NULL);
 			pthread_mutex_unlock(&g_data->mutexes->death_mutex);
 			curr = curr->next;
 		}
 		if (full_eat)
-		{
-			pthread_mutex_lock(&g_data->mutexes->death_mutex);
-			g_data->is_dead = 1;
-			pthread_mutex_unlock(&g_data->mutexes->death_mutex);
-			return (NULL);
-		}
+			if (ft_full_eat(g_data) == 1)
+				return (NULL);
 		usleep(100);
 	}
 }
