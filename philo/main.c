@@ -60,6 +60,7 @@ void f()
 
 static void ft_have_one_philo(t_philo *philo)
 {
+	ft_print_actions(philo, "is thinking");
 	ft_print_actions(philo, "has taken a fork");
 	usleep(philo->tt_die);
 	printf("%d %d %s\n", philo->tt_die,

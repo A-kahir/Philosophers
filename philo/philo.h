@@ -59,6 +59,7 @@ void	ft_init_mutexes(t_data *g_data, char **argv);
 void	ft_print_actions(t_philo *philo, char *msg);
 void	*ft_action(void *var);
 void	*ft_monitor_philo(void *var);
+void	ft_start_eating(t_philo *philo);
 
 // utils philo :
 t_philo	*creat_node(t_philo *philo, char **argv, int *index);

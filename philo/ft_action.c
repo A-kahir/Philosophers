@@ -12,94 +12,13 @@
 
 #include "philo.h"
 
-static	void	ft_taking_eating(t_philo *philo)
-{
-	struct timeval	tv;
-
-	if (philo->g_data->nb_philos == 1)
-	{
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
-		if (philo->g_data->is_dead)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			pthread_mutex_unlock(philo->left_fork);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-		ft_print_actions(philo, "has taken a fork");
-		pthread_mutex_unlock(philo->left_fork);
-		return ;
-	}
-	if (philo->philo_id % 2 == 0)
-	{
-		pthread_mutex_lock(philo->right_fork);
-		pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
-		if (philo->g_data->is_dead)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			pthread_mutex_unlock(philo->right_fork);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-		ft_print_actions(philo, "has taken a fork");
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
-		if (philo->g_data->is_dead)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			pthread_mutex_unlock(philo->left_fork);
-			pthread_mutex_unlock(philo->right_fork);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-		ft_print_actions(philo, "has taken a fork");
-	}
-	else
-	{
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
-		if (philo->g_data->is_dead)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			pthread_mutex_unlock(philo->left_fork);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-		ft_print_actions(philo, "has taken a fork");
-		pthread_mutex_lock(philo->right_fork);
-		pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
-		if (philo->g_data->is_dead)
-		{
-			pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-			pthread_mutex_unlock(philo->right_fork);
-			pthread_mutex_unlock(philo->left_fork);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-		ft_print_actions(philo, "has taken a fork");
-	}
-	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
-	if (philo->g_data->is_dead)
-	{
-		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		return ;
-	}
-	gettimeofday(&tv, NULL);
-	philo->last_time_eat = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-	ft_print_actions(philo, "is eating");
-}
-
 static	void	ft_eat(t_philo *philo)
 {
 	struct timeval	tv;
 	long			start;
 	long			nw;
 
-	ft_taking_eating(philo);
+	ft_start_eating(philo);
 	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
 	if (philo->g_data->is_dead)
 	{

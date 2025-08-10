@@ -1,7 +1,7 @@
 CC = cc -fsanitize=thread #-g -fsanitize=address
 CFLAGS = -Wall -Werror -Wextra -pthread
 
-SRCS = main.c libft_func.c utils_philos.c ft_init.c ft_monitoring.c ft_action.c 
+SRCS = main.c libft_func.c utils_philos.c ft_init.c ft_monitoring.c ft_action.c  ft_action2.c
 
 OBJS = $(SRCS:.c=.o)
 OBJSB = $(SRCB:.c=.o)
