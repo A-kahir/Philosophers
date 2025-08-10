@@ -38,6 +38,8 @@ int	parse_args(int argc, char **argv)
 		j = 0;
 		if (argv[i][0] == '\0')
 			return (0);
+		if (argv[i][0] == '+')
+			j++;
 		while (argv[i][j] != '\0')
 		{
 			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
@@ -53,13 +55,11 @@ int	ft_atoi(char *str)
 {
 	int					i;
 	int					signe;
-	unsigned long long	result;
-	unsigned long long	max;
+	int					result;
 
 	signe = 1;
 	i = 0;
 	result = 0;
-	max = 9223372036854775807;
 	while (((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
 		i++;
 	if ((str[i] == '-') || (str[i] == '+'))
@@ -70,7 +70,7 @@ int	ft_atoi(char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (result > (max - (str[i] - '0')) / 10)
+		if (result > (2147483647 - (str[i] - '0')) / 10)
 			return (-1);
 		result = ((result * 10) + (str[i] - '0'));
 		i++;
@@ -82,6 +82,8 @@ int	ft_strcmp(char *s1, char *s2)
 {
 	size_t	i;
 
+	if (!s1)
+		return (1);
 	i = 0;
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;

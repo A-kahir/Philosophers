@@ -43,7 +43,7 @@ static int	ft_parsing(int argc, char **argv)
 		return (print_msg(0), 1);
 	if (parse_args(argc, argv) == 0)
 		return (print_msg(1), 1);
-	i = 0;
+	i = 1;
 	while (argv[i])
 	{
 		if (ft_atoi(argv[i]) < 0)
