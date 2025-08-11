@@ -18,19 +18,19 @@ t_philo	*init_philos(char **argv)
 	t_philo	*curr;
 	t_philo	*new_node;
 	int		i;
-	int		index;
+	int		id_philo;
 
 	head = NULL;
 	curr = NULL;
 	i = 1;
-	index = 1;
-	new_node = creat_node(head, argv, &index);
+	id_philo = 1;
+	new_node = creat_node(head, argv, &id_philo);
 	head = new_node;
 	curr = new_node;
 	while (i < ft_atoi(argv[1]))
 	{
-		index++;
-		new_node = creat_node(curr, argv, &index);
+		id_philo++;
+		new_node = creat_node(curr, argv, &id_philo);
 		curr->next = new_node;
 		curr = new_node;
 		i++;

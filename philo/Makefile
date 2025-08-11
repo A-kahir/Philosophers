@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -pthread
+CFLAGS = -Wall -Werror -Wextra -pthread 
 
 SRCS = main.c libft_func.c utils_philos.c ft_init.c ft_monitoring.c ft_action.c  ft_action2.c
 
