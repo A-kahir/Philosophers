@@ -53,7 +53,7 @@ typedef struct s_philo
 // initialisation :
 t_philo	*init_philos(char **argv);
 t_data	*ft_init_global_data(t_philo *philo, char **argv);
-void	ft_init_mutexes(t_data *g_data, char **argv);
+int		ft_init_mutexes(t_data *g_data, char **argv);
 
 // action && monitoring :
 void	ft_print_actions(t_philo *philo, char *msg);
@@ -66,7 +66,7 @@ t_philo	*creat_node(t_philo *philo, char **argv, int *index);
 t_data	*ft_allocation(t_data *g_data, char **argv);
 void	ft_clean_destroy(t_philo *philo, t_data *g_data);
 void	ft_have_one_philo(t_philo *philo);
-int		ft_time(void);
+long	ft_time(void);
 
 // Libft functions:
 void	print_msg(int flag);

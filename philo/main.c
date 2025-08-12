@@ -93,8 +93,12 @@ int	main(int argc, char **argv)
 		return (write(2, "Failed to init philo data\n", 27), 1);
 	g_data = ft_init_global_data(philo, argv);
 	if (!g_data)
+	{
+		ft_clean_destroy(philo, NULL);
 		return (write(2, "Failed to init global data\n", 28), 1);
-	ft_init_mutexes(g_data, argv);
+	}
+	if (ft_init_mutexes(g_data, argv) == -1)
+		return (ft_clean_destroy(philo, g_data), 1);
 	if (g_data->nb_philos != 1)
 		if (ft_action_monitoring(philo, &monitor) == 1)
 			return (write(2, "thread is failed\n", 18), 1);

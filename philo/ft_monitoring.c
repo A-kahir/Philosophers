@@ -14,13 +14,8 @@
 
 static int	ft_check_die(t_philo *curr, int *full_eat)
 {
-	struct timeval	tv;
-	long			nw;
-
 	pthread_mutex_lock(&curr->g_data->mutexes->death_mutex);
-	gettimeofday(&tv, NULL);
-	nw = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	if (nw - curr->last_time_eat > curr->tt_die)
+	if (ft_time() - curr->last_time_eat > curr->tt_die)
 	{
 		curr->g_data->is_dead = 1;
 		pthread_mutex_unlock(&curr->g_data->mutexes->death_mutex);

@@ -49,7 +49,8 @@ t_data	*ft_init_global_data(t_philo *philo, char **argv)
 	i = 0;
 	while (i < ft_atoi(argv[1]))
 	{
-		pthread_mutex_init(&g_data->fork[i], NULL);
+		if (pthread_mutex_init(&g_data->fork[i], NULL) != 0)
+			return (write(2, "mutex init is failed\n", 22), NULL);
 		i++;
 	}
 	curr = philo;
@@ -63,15 +64,18 @@ t_data	*ft_init_global_data(t_philo *philo, char **argv)
 	return (g_data);
 }
 
-void	ft_init_mutexes(t_data *g_data, char **argv)
+int	ft_init_mutexes(t_data *g_data, char **argv)
 {
 	g_data->mutexes = malloc(sizeof(t_mutexes));
 	if (!g_data->mutexes)
-		return ;
-	pthread_mutex_init(&g_data->mutexes->print_mutex, NULL);
-	pthread_mutex_init(&g_data->mutexes->death_mutex, NULL);
+		return (write(2, "mutex init is failed\n", 22), -1);
+	if (pthread_mutex_init(&g_data->mutexes->print_mutex, NULL) != 0)
+		return (write(2, "mutex init is failed\n", 22), -1);
+	if (pthread_mutex_init(&g_data->mutexes->death_mutex, NULL) != 0)
+		return (write(2, "mutex init is failed\n", 22), -1);
 	if (argv[5])
 		g_data->must_eat_count = ft_atoi(argv[5]);
 	else
 		g_data->must_eat_count = -1;
+	return (0);
 }

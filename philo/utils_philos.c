@@ -71,8 +71,6 @@ void	ft_clean_destroy(t_philo *philo, t_data *g_data)
 
 t_data	*ft_allocation(t_data *g_data, char **argv)
 {
-	struct timeval	tv;
-
 	g_data = malloc(sizeof(t_data));
 	if (!g_data)
 		return (NULL);
@@ -81,15 +79,12 @@ t_data	*ft_allocation(t_data *g_data, char **argv)
 	if (g_data->fork == NULL)
 		return (free(g_data), NULL);
 	g_data->is_dead = 0;
-	gettimeofday(&tv, NULL);
-	g_data->start_time = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	g_data->start_time = ft_time();
 	return (g_data);
 }
 
 t_philo	*creat_node(t_philo *philo, char **argv, int *index)
 {
-	struct timeval	tv;
-
 	philo = malloc(sizeof(t_philo));
 	if (!philo)
 		return (NULL);
@@ -98,8 +93,7 @@ t_philo	*creat_node(t_philo *philo, char **argv, int *index)
 	philo->tt_eat = ft_atoi(argv[3]);
 	philo->tt_sleep = ft_atoi(argv[4]);
 	philo->nb_tt_eat = 0;
-	gettimeofday(&tv, NULL);
-	philo->last_time_eat = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	philo->last_time_eat = ft_time();
 	philo->next = NULL;
 	return (philo);
 }
