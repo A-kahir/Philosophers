@@ -14,8 +14,6 @@
 
 void	ft_print_actions(t_philo *philo, char *msg)
 {
-	struct timeval	tv;
-	long			time;
 	int				dead;
 
 	if (!philo->g_data || !philo->g_data->mutexes)
@@ -33,9 +31,7 @@ void	ft_print_actions(t_philo *philo, char *msg)
 		return ;
 	}
 	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
-	gettimeofday(&tv, NULL);
-	time = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-	printf("%ld %d %s\n", time - philo->g_data->start_time,
+	printf("%ld %d %s\n", ft_time() - philo->g_data->start_time,
 		philo->philo_id, msg);
 	pthread_mutex_unlock(&philo->g_data->mutexes->print_mutex);
 }
