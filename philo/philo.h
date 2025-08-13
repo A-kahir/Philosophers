@@ -23,6 +23,7 @@ typedef struct s_mutexes
 {
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	meals_mutex;
 }	t_mutexes;
 
 typedef struct s_data
@@ -59,7 +60,7 @@ int		ft_init_mutexes(t_data *g_data, char **argv);
 void	ft_print_actions(t_philo *philo, char *msg);
 void	*ft_action(void *var);
 void	*ft_monitor_philo(void *var);
-void	ft_start_eating(t_philo *philo);
+int		ft_start_eating(t_philo *philo);
 
 // utils philo :
 t_philo	*creat_node(t_philo *philo, char **argv, int *index);
@@ -67,6 +68,8 @@ t_data	*ft_allocation(t_data *g_data, char **argv);
 void	ft_clean_destroy(t_philo *philo, t_data *g_data);
 void	ft_have_one_philo(t_philo *philo);
 long	ft_time(void);
+void	ft_unlock_forks_r_l(t_philo *philo);
+int		ft_sleep_action(long time_check, t_philo *philo);
 
 // Libft functions:
 void	print_msg(int flag);

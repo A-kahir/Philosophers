@@ -73,6 +73,9 @@ int	ft_init_mutexes(t_data *g_data, char **argv)
 		return (write(2, "mutex init is failed\n", 22), -1);
 	if (pthread_mutex_init(&g_data->mutexes->death_mutex, NULL) != 0)
 		return (write(2, "mutex init is failed\n", 22), -1);
+	if (pthread_mutex_init(&g_data->mutexes->meals_mutex, NULL) != 0)
+		return (write(2, "mutex init is failed\n", 22), -1);
+	g_data->is_dead = 0;
 	if (argv[5])
 		g_data->must_eat_count = ft_atoi(argv[5]);
 	else

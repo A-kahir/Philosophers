@@ -30,8 +30,8 @@ static int	ft_creation_f(t_philo *philo, t_philo *curr, pthread_t *monitor)
 			break ;
 		tmp = tmp->next;
 	}
-	ft_clean_destroy(philo, philo->g_data);
 	write(2, "creation thread failed\n", 24);
+	ft_clean_destroy(philo, philo->g_data);
 	return (1);
 }
 
@@ -103,6 +103,6 @@ int	main(int argc, char **argv)
 		if (ft_action_monitoring(philo, &monitor) == 1)
 			return (write(2, "thread is failed\n", 18), 1);
 	if (g_data->nb_philos == 1)
-		return (ft_have_one_philo(philo), 0);
+		ft_have_one_philo(philo);
 	ft_clean_destroy(philo, g_data);
 }

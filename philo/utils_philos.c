@@ -30,9 +30,9 @@ void	ft_print_actions(t_philo *philo, char *msg)
 		pthread_mutex_unlock(&philo->g_data->mutexes->print_mutex);
 		return ;
 	}
-	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
 	printf("%ld %d %s\n", ft_time() - philo->g_data->start_time,
 		philo->philo_id, msg);
+	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
 	pthread_mutex_unlock(&philo->g_data->mutexes->print_mutex);
 }
 
@@ -53,6 +53,7 @@ void	ft_clean_destroy(t_philo *philo, t_data *g_data)
 		{
 			(pthread_mutex_destroy(&g_data->mutexes->print_mutex));
 			(pthread_mutex_destroy(&g_data->mutexes->death_mutex));
+			(pthread_mutex_destroy(&g_data->mutexes->meals_mutex));
 			free(g_data->mutexes);
 		}
 		(free(g_data->fork), free(g_data));
@@ -60,8 +61,7 @@ void	ft_clean_destroy(t_philo *philo, t_data *g_data)
 	while (philo)
 	{
 		temp = philo->next;
-		free(philo);
-		philo = temp;
+		1 && (free(philo), philo = temp);
 	}
 }
 
