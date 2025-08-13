@@ -6,13 +6,13 @@
 /*   By: akahir <akahir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:07:20 by akahir            #+#    #+#             */
-/*   Updated: 2025/08/13 01:36:24 by akahir           ###   ########.fr       */
+/*   Updated: 2025/08/13 01:41:35 by akahir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	ft_take_even_philo(t_philo *philo)
+static void	ft_take_pair_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
 	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
@@ -37,7 +37,7 @@ static void	ft_take_even_philo(t_philo *philo)
 	ft_print_actions(philo, "has taken a fork");
 }
 
-static void	ft_take_odd_philo(t_philo *philo)
+static void	ft_take_impaire_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
@@ -87,9 +87,9 @@ int	ft_sleep_action(long time_check, t_philo *philo)
 int	ft_start_eating(t_philo *philo)
 {
 	if (philo->philo_id % 2 == 0)
-		ft_take_even_philo(philo);
+		ft_take_pair_forks(philo);
 	else
-		ft_take_odd_philo(philo);
+		ft_take_impaire_forks(philo);
 	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
 	if (philo->g_data->is_dead)
 	{
