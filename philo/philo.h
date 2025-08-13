@@ -66,7 +66,7 @@ int		ft_start_eating(t_philo *philo);
 t_philo	*creat_node(t_philo *philo, char **argv, int *index);
 t_data	*ft_allocation(t_data *g_data, char **argv);
 void	ft_clean_destroy(t_philo *philo, t_data *g_data);
-void	ft_have_one_philo(t_philo *philo);
+void	ft_have_one_philo(char *arg, t_philo *philo);
 long	ft_time(void);
 void	ft_unlock_forks_r_l(t_philo *philo);
 int		ft_sleep_action(long time_check, t_philo *philo);

@@ -118,6 +118,6 @@ int	main(int argc, char **argv)
 		if (ft_action_monitoring(philo, &monitor) == 1)
 			return (write(2, "thread is failed\n", 18), 1);
 	if (g_data->nb_philos == 1)
-		ft_have_one_philo(philo);
+		ft_have_one_philo(argv[5], philo);
 	ft_clean_destroy(philo, g_data);
 }
