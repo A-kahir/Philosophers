@@ -35,13 +35,30 @@ static int	ft_creation_f(t_philo *philo, t_philo *curr, pthread_t *monitor)
 	return (1);
 }
 
+static int	ft_creation_mf(t_philo *philo)
+{
+	t_philo	*curr;
+
+	curr = philo;
+	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
+	philo->g_data->is_dead = 1;
+	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
+	while (curr)
+	{
+		pthread_join(curr->thread, NULL);
+		curr = curr->next;
+	}
+	return (write(2, "monitor thread failed\n", 23), 1);
+}
+
 int	ft_action_monitoring(t_philo *philo, pthread_t *monitor)
 {
 	t_philo	*curr;
-	t_philo	*tmp;
 
+	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
+	philo->g_data->start_time = ft_time();
+	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
 	curr = philo;
-	tmp = philo;
 	while (curr != NULL)
 	{
 		if (pthread_create(&curr->thread, NULL, ft_action, curr) != 0)
@@ -49,14 +66,12 @@ int	ft_action_monitoring(t_philo *philo, pthread_t *monitor)
 		curr = curr->next;
 	}
 	if (pthread_create(monitor, NULL, ft_monitor_philo, philo) != 0)
-		return (write(2, "monitor thread failed\n", 23), 1);
-	if (pthread_join(*monitor, NULL) == -1)
-		return (write(2, "thread join is failed\n", 23), 1);
+		return (ft_creation_mf(philo), 1);
+	pthread_join(*monitor, NULL);
 	curr = philo;
 	while (curr)
 	{
-		if (pthread_join(curr->thread, NULL) == -1)
-			return (write(2, "thread join is failed\n", 23), 1);
+		pthread_join(curr->thread, NULL);
 		curr = curr->next;
 	}
 	return (0);

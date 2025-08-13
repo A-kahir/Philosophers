@@ -76,8 +76,8 @@ void	*ft_action(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->philo_id % 2 == 0)
 		usleep(100);
-	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
-	philo->g_data->start_time = ft_time();
-	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
+	pthread_mutex_lock(&philo->g_data->mutexes->meals_mutex);
+	philo->last_time_eat = ft_time();
+	pthread_mutex_unlock(&philo->g_data->mutexes->meals_mutex);
 	return (ft_think_sleep(philo), NULL);
 }

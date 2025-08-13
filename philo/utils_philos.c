@@ -14,25 +14,24 @@
 
 void	ft_print_actions(t_philo *philo, char *msg)
 {
-	int				dead;
+	long	current_time;
+	long	start_time;
+	int		dead;
 
 	if (!philo->g_data || !philo->g_data->mutexes)
-	{
-		printf("g_data || mutexes is NULL for philo %d\n", philo->philo_id);
 		return ;
-	}
 	pthread_mutex_lock(&philo->g_data->mutexes->print_mutex);
 	pthread_mutex_lock(&philo->g_data->mutexes->death_mutex);
 	dead = philo->g_data->is_dead;
+	start_time = philo->g_data->start_time;
+	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
 	if (ft_strcmp(msg, "died") != 0 && dead)
 	{
-		pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
 		pthread_mutex_unlock(&philo->g_data->mutexes->print_mutex);
 		return ;
 	}
-	printf("%ld %d %s\n", ft_time() - philo->g_data->start_time,
-		philo->philo_id, msg);
-	pthread_mutex_unlock(&philo->g_data->mutexes->death_mutex);
+	current_time = ft_time();
+	printf("%ld %d %s\n", current_time - start_time, philo->philo_id, msg);
 	pthread_mutex_unlock(&philo->g_data->mutexes->print_mutex);
 }
 
