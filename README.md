@@ -110,9 +110,3 @@ Working on Philosophers helped me develop a deeper understanding of:
 **Aymane Kahir**
 
 42 Network Student | 1337 Coding School
-
----
-
-<p align="center">
-  Made with ❤️ as part of the 42 Network journey.
-</p>
